@@ -1,4 +1,5 @@
-./source/tools/ManualExamples/obj-intel64/
-./source/tools/ManualExamples/pinatrace.out
-./source/tools/ManualExamples/pintool.log
-./source/tools/ManualExamples/array_swap_output.txt
+source/tools/ManualExamples/obj-intel64/
+source/tools/ManualExamples/pinatrace.out
+source/tools/ManualExamples/pintool.log
+source/tools/ManualExamples/array_swap_output.txt
+source/tools/ManualExamples/SAS/a.out
