@@ -21,7 +21,7 @@ unsigned long lo = 1073741824;
 unsigned long hi = lo*3-1;
 
 bool inRange(VOID* pt) {
-    // if ((unsigned long)pt < lo || (unsigned long)pt > hi) return false;
+    if ((unsigned long)pt < lo || (unsigned long)pt > hi) return false;
     return true;
 }
 
