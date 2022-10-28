@@ -7,24 +7,53 @@
  *  This file contains an ISA-portable PIN tool for tracing memory accesses.
  */
 
+
+#include <chrono>
+#include <iostream>
+#include <sys/time.h>
+#include <ctime>
+
 #include <stdio.h>
 #include "pin.H"
-
 FILE* trace;
 
 unsigned long lo = 1073741824;
 unsigned long hi = lo*3-1;
 
 bool inRange(VOID* pt) {
-    if ((unsigned long)pt < lo || (unsigned long)pt > hi) return false;
+    // if ((unsigned long)pt < lo || (unsigned long)pt > hi) return false;
     return true;
 }
 
 // Print a memory read record
-VOID RecordMemRead(VOID* ip, VOID* addr) { if (inRange(addr)) fprintf(trace, "R %p\n", addr); }
+VOID RecordMemRead(VOID* ip, VOID* addr) {
+     if (inRange(addr)){
+        struct timeval time_now{};
+        gettimeofday(&time_now, nullptr);
+        time_t msecs_time = (time_now.tv_sec * 1000) + (time_now.tv_usec / 1000);
+        fprintf(trace, "[%ld] R %p\n", //123LL, addr); 
+            msecs_time,
+            addr); 
+     } 
+}
 
 // Print a memory write record
-VOID RecordMemWrite(VOID* ip, VOID* addr) { if (inRange(addr)) fprintf(trace, "W %p\n", addr); }
+VOID RecordMemWrite(VOID* ip, VOID* addr) { 
+    if (inRange(addr)){
+        
+        struct timeval time_now{};
+        gettimeofday(&time_now, nullptr);
+        time_t msecs_time = (time_now.tv_sec * 1000) + (time_now.tv_usec / 1000);
+        fprintf(trace, "[%ld] W %p\n", //123LL, addr); 
+            msecs_time,
+            addr); 
+
+        // fprintf(trace, "[%lld] W %p\n", //123LL, addr); 
+			// std::chrono::duration_cast<std::chrono::milliseconds>
+            //   (std::chrono::high_resolution_clock::now().time_since_epoch()).count(),
+            // addr); 
+     }
+}
 
 // Is called for every instruction and instruments reads and writes
 VOID Instruction(INS ins, VOID* v)
